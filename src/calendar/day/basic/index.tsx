@@ -5,7 +5,16 @@ import {xdateToData} from '../../../interface';
 import {Theme, DayState, MarkingTypes, DateData} from '../../../types';
 import styleConstructor from './style';
 import Marking, {MarkingProps} from '../marking';
+import {I18nManager} from 'react-native';
 
+export const numberBag = num => {
+  const arabicNumbers =
+    '\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669';
+  return new String(num).replace(/[0123456789]/g, d => {
+    if (I18nManager.isRTL) return arabicNumbers[d];
+    else return d;
+  });
+};
 
 export interface BasicDayProps extends ViewProps {
   state?: DayState;
@@ -152,7 +161,7 @@ const BasicDay = (props: BasicDayProps) => {
   const renderText = () => {
     return (
       <Text allowFontScaling={false} style={getTextStyle()}>
-        {String(children)}
+        {numberBag(children)}
       </Text>
     );
   };
